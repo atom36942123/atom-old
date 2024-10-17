@@ -400,6 +400,7 @@ async def postgres_init(postgres_object,postgres_schema):
         query_param={}
         await postgres_object.fetch_all(query=query,values=query_param) 
   #set updated at now
+  schema_column=await postgres_object.fetch_all(query="select * from information_schema.columns where table_schema='public';",values={})
   schema_trigger=await postgres_object.fetch_all(query="select trigger_name from information_schema.triggers;",values={})
   schema_trigger_name_list=[item["trigger_name"] for item in schema_trigger]
   function_set_updated_at_now=await postgres_object.fetch_all(query="create or replace function function_set_updated_at_now() returns trigger as $$ begin new.updated_at= now(); return new; end; $$ language 'plpgsql';",values={})
