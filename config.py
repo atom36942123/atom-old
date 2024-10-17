@@ -86,7 +86,7 @@ postgres_schema={
 "tag":["btree",["users","post","box","atom"]],
 "tag_array":["gin",["atom"]]
 },
-"notnull":{
+"not_null":{
 "parent_table":["likes","bookmark","report","block","rating","comment","message"],
 "parent_id":["likes","bookmark","report","block","rating","comment","message"]
 },
