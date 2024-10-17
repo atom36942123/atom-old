@@ -332,7 +332,7 @@ async def postgres_init(postgres_object,postgres_schema):
   postgres_schema_extension=postgres_schema["extension"]
   postgres_schema_table=postgres_schema["table"]
   postgres_schema_column=postgres_schema["column"]
-  postgres_schema_notnull=postgres_schema["notnull"]
+  postgres_schema_not_null=postgres_schema["not_null"]
   postgres_schema_unique=postgres_schema["unique"]
   postgres_schema_index=postgres_schema["index"]
   postgres_schema_bulk_delete_disable=postgres_schema["bulk_delete_disable"]
@@ -370,10 +370,10 @@ async def postgres_init(postgres_object,postgres_schema):
         query=f"create or replace rule {rule_name} as on delete to {item['table_name']} where old.is_protected=1 do instead nothing;"
         query_param={}
         await postgres_object.fetch_all(query=query,values=query_param)
-  #notnull
+  #not null
   schema_column=await postgres_object.fetch_all(query="select * from information_schema.columns where table_schema='public';",values={})
   schema_column_table_nullable={f"{item['column_name']}_{item['table_name']}":item["is_nullable"] for item in schema_column}
-  for k,v in postgres_schema_notnull.items():
+  for k,v in postgres_schema_not_null.items():
     for item in v:
       if schema_column_table_nullable[f"{k}_{item}"]=="YES":
         query=f"alter table {item} alter column {k} set not null;"
